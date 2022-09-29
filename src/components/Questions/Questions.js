@@ -2,7 +2,7 @@ import './Questions.css';
 
 function Questions() {
   return (
-    <div className="Questions">
+    <div className="questions-container">
       Test
     </div>
   );

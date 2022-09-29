@@ -2,7 +2,7 @@ import './Results.css';
 
 function Results() {
   return (
-    <div className="Results">
+    <div className="results-container">
       Test
     </div>
   );
