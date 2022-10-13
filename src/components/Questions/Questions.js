@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import './Questions.css';
 
 function Questions() {
@@ -48,16 +49,16 @@ function Questions() {
         <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
         <div className="questions-input-container">
             {
-                formProgress >= formQuestions.length - 1 ?
+                formProgress >= Object.keys(formQuestions).length - 1 ?
                 <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)}/>
                 :
                 <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)}/>
             }
         </div>
         {
-            formProgress >= formQuestions.length - 1 ?
+            formProgress >= Object.keys(formQuestions).length - 1 ?
             <button className="questions-next-btn">
-                {cmsData.btnText2}
+                <Link to={'/results'} state={answerList}>{cmsData.btnText2}</Link>
             </button>
             :
             <button className="questions-next-btn" onClick={() => handleNextClick()}>
