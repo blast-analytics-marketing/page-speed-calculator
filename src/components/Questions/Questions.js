@@ -46,25 +46,25 @@ function Questions() {
  
     return (
         <div className="questions-container">
-        <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
-        <div className="questions-input-container">
+            <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
+            <div className="questions-input-container">
+                {
+                    formProgress >= Object.keys(formQuestions).length - 1 ?
+                    <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)}/>
+                    :
+                    <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)}/>
+                }
+            </div>
             {
                 formProgress >= Object.keys(formQuestions).length - 1 ?
-                <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)}/>
+                <button className="questions-next-btn">
+                    <Link to='/results' state={answerList}>{cmsData.btnText2}</Link>
+                </button>
                 :
-                <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)}/>
+                <button className="questions-next-btn" onClick={() => handleNextClick()}>
+                    {cmsData.btnText}
+                </button>
             }
-        </div>
-        {
-            formProgress >= Object.keys(formQuestions).length - 1 ?
-            <button className="questions-next-btn">
-                <Link to={'/results'} state={answerList}>{cmsData.btnText2}</Link>
-            </button>
-            :
-            <button className="questions-next-btn" onClick={() => handleNextClick()}>
-                {cmsData.btnText}
-            </button>
-        }
         </div>
     );
 }
