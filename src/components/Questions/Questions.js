@@ -18,9 +18,10 @@ function Questions() {
         6:{q:"Enter your email", a:""},
     }
 
-    const industryOptions = ["Arts and Crafts", "Electrical and Commercial Equipment", "Pet Care", "Health and Wellbeing", "Kitchen and Home Appliances", "Home Accessories and Giftware", "Cars and Motorcycling", "Fashion, Clothing, and Accessories", "Sports and Recreation"]
+    const industryOptions = ["Select Industry", "Arts and Crafts", "Electrical and Commercial Equipment", "Pet Care", "Health and Wellbeing", "Kitchen and Home Appliances", "Home Accessories and Giftware", "Cars and Motorcycling", "Fashion, Clothing, and Accessories", "Sports and Recreation"]
 
     const [formProgress, setFormProgress] = useState(0);
+    const [buttonDisable, setButtonDisable] = useState(true);
     const [answer, setAnswer] = useState('');
     const [answerList, setAnswerList] = useState({})
 
@@ -38,18 +39,37 @@ function Questions() {
         setAnswerList(newAnswerList)
         setFormProgress(formProgress + 1)
         setAnswer('')
+        setButtonDisable(true)
     }
 
     const handleChange = (e) => {
+        checkValidity(e)
         setAnswer(e.target.value)
+    }
+
+    const checkValidity = (e) => {
+        let fieldValue = e.target.value;
+        if (fieldValue.length > 0) {
+            setButtonDisable(false)
+        }
     }
  
     return (
-        <div className="questions-container">
+        <div className="questions-page">
             <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
             <div className="questions-input-container">
                 {
-                    formProgress >= Object.keys(formQuestions).length - 1 ?
+                    formProgress === 5 ?
+                    <select className="questions-input-dropdown" name="industry" defaultValue={industryOptions[0]} onChange={e => handleChange(e)}>
+                        {
+                            industryOptions.map((industry, i) => 
+                                 <option key={i} value={industry} disabled={i === 0 ? true:false}>{industry}</option>
+                            )
+                        }
+                    </select>
+                    :
+                    formProgress >= Object.keys(formQuestions).length - 1 
+                    ?
                     <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)}/>
                     :
                     <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)}/>
@@ -57,11 +77,11 @@ function Questions() {
             </div>
             {
                 formProgress >= Object.keys(formQuestions).length - 1 ?
-                <button className="questions-next-btn">
+                <button disabled={buttonDisable} className="questions-next-btn">
                     <Link to='/results' state={answerList}>{cmsData.btnText2}</Link>
                 </button>
                 :
-                <button className="questions-next-btn" onClick={() => handleNextClick()}>
+                <button disabled={buttonDisable} className="questions-next-btn" onClick={e => handleNextClick(e)}>
                     {cmsData.btnText}
                 </button>
             }
