@@ -28,7 +28,11 @@ function Questions() {
     let currentQuestion = formQuestions[formProgress].q
     let currentQuestionNum = `${formProgress + 1}.`
 
-    const handleNextClick = () => {
+    const submitData = async (data) => {
+        // Data Submission Logic Here (Usage of API, etc.)
+    }
+
+    const handleNextClick = async () => {
         let newAnswerList = {
             ...answerList
         }
@@ -40,6 +44,10 @@ function Questions() {
         setFormProgress(formProgress + 1)
         setAnswer('')
         setButtonDisable(true)
+
+       if (formProgress === Object.keys(formQuestions).length - 1) {
+        // await submitData(data)
+       }
     }
 
     const handleChange = (e) => {
@@ -53,6 +61,8 @@ function Questions() {
             setButtonDisable(false)
         }
     }
+
+
  
     return (
         <div className="questions-page">
