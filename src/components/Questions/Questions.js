@@ -95,75 +95,62 @@ function Questions() {
         console.log(generalCMS, 'GENERAL DATA')
 
         return (
-            <div className="questions-page">
-                <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
-                <div className="questions-input-container">
-                    {
-                        formProgress === 5 ?
-                            <select className="questions-input-dropdown" name="industry" defaultValue={industryOptions[0]} onChange={e => handleChange(e)}>
-                                {
-                                    industryOptions.map((industry, i) =>
-                                        <option key={i} value={industry} disabled={i === 0 ? true : false}>{industry}</option>
-                                    )
-                                }
-                            </select>
-                            :
-                            formProgress >= Object.keys(formQuestionsTest).length - 1
-                                ?
-                                <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)} />
-                                :
-                                <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)} />
-                    }
+            <div className="questions-page flex flex-col items-center justify-center h-min">
+                <div className="questions-header p-0 content-start w-4/6 pb-10">
+                    <div class="questions-title">{generalCMS.form_header_title}</div> 
+                    <div class="questions-subtitle">{generalCMS.form_header_text}</div> 
                 </div>
-                {
-                    formProgress >= Object.keys(formQuestionsTest).length - 1 ?
-                        <button disabled={buttonDisable} className="questions-next-btn">
-                            <Link to='/results' state={answerList}>{testingData.btnText2}</Link>
-                        </button>
-                        :
-                        <button disabled={buttonDisable} className="questions-next-btn" onClick={e => handleNextClick(e)}>
-                            {testingData.btnText}
-                        </button>
-                }
+                {/* <div className="questions-container items-center"> */}
+                    {
+                        Object.keys(questionsCMS).map(q => {
+                            return (
+                                <div class="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
+                                    <div class="bg-orange-400 text-left flex flex-col w-3/6">{questionsCMS[q].title}</div>
+                                    <div class="bg-orange-500 text-right flex flex-col w-3/6">2</div>
+                                </div> 
+                            )
+                        })
+                    }
+                                        
+                {/* </div> */}
             </div>
+
+            // <div className="questions-page">
+            //     <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
+            //     <div className="questions-input-container">
+            //         {
+            //             formProgress === 5 ?
+            //                 <select className="questions-input-dropdown" name="industry" defaultValue={industryOptions[0]} onChange={e => handleChange(e)}>
+            //                     {
+            //                         industryOptions.map((industry, i) =>
+            //                             <option key={i} value={industry} disabled={i === 0 ? true : false}>{industry}</option>
+            //                         )
+            //                     }
+            //                 </select>
+            //                 :
+            //                 formProgress >= Object.keys(formQuestionsTest).length - 1
+            //                     ?
+            //                     <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)} />
+            //                     :
+            //                     <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)} />
+            //         }
+            //     </div>
+            //     {
+            //         formProgress >= Object.keys(formQuestionsTest).length - 1 ?
+            //             <button disabled={buttonDisable} className="questions-next-btn">
+            //                 <Link to='/results' state={answerList}>{testingData.btnText2}</Link>
+            //             </button>
+            //             :
+            //             <button disabled={buttonDisable} className="questions-next-btn" onClick={e => handleNextClick(e)}>
+            //                 {testingData.btnText}
+            //             </button>
+            //     }
+            // </div>
         )
     } else if (notFound) {
         return <div>LOADING...</div>
     }
 
-    // return (
-    // <div className="questions-page">
-    //     <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
-    //     <div className="questions-input-container">
-    //         {
-    //             formProgress === 5 ?
-    //             <select className="questions-input-dropdown" name="industry" defaultValue={industryOptions[0]} onChange={e => handleChange(e)}>
-    //                 {
-    //                     industryOptions.map((industry, i) => 
-    //                          <option key={i} value={industry} disabled={i === 0 ? true:false}>{industry}</option>
-    //                     )
-    //                 }
-    //             </select>
-    //             :
-    //             formProgress >= Object.keys(formQuestionsTest).length - 1 
-    //             ?
-    //             <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)}/>
-    //             :
-    //             <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)}/>
-    //         }
-    //     </div>
-    //     {
-    //         formProgress >= Object.keys(formQuestionsTest).length - 1 ?
-    //         <button disabled={buttonDisable} className="questions-next-btn">
-    //             <Link to='/results' state={answerList}>{testingData.btnText2}</Link>
-    //         </button>
-    //         :
-    //         <button disabled={buttonDisable} className="questions-next-btn" onClick={e => handleNextClick(e)}>
-    //             {testingData.btnText}
-    //         </button>
-    //     }
-    // </div>
-    // );
 }
 
 export default Questions;
