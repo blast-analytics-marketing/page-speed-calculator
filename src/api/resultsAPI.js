@@ -1,1 +1,0 @@
-// Will need to set up a firebase project for all calculators projects 

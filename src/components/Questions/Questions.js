@@ -89,7 +89,7 @@ function Questions() {
 
         return (
             <div className="questions-page flex flex-col items-center justify-center h-min">
-                <div className="questions-header p-0 content-start w-4/6 pb-10">
+                <div className="questions-header content-start w-4/6 pb-10">
                     <div className="questions-title">{generalCMS.form_header_title}</div> 
                     <div className="questions-subtitle">{generalCMS.form_header_text}</div> 
                 </div>
@@ -98,11 +98,22 @@ function Questions() {
                         return (
                             <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4" key={i}>
                                 <div className="bg-orange-400 text-left flex flex-col w-3/6">{questionsCMS[q].title}</div>
-                                <div className="bg-orange-500 text-right flex flex-col justify-center items-center w-3/6">{mapInputType(questionsCMS[q].type, q ,questionsCMS[q].dropdownOptions)}</div>
+                                <div className="bg-orange-500 text-right flex flex-col justify-center items-end w-3/6">{mapInputType(questionsCMS[q].type, q ,questionsCMS[q].dropdownOptions)}</div>
                             </div> 
                         )
                     })
-                }                                      
+                }
+                <span class="w-full my-8 py-0.5 bg-gray-200 lg:w-2/4"></span>
+                <div className="results-container p-6 bg-gray-500 max-w-2/4 min-h-250 flex flex-col justify-center items-start">
+                    <div className="results-title font-extrabold">{generalCMS.contact_info_text}</div>
+                    <div className="results-inputs py-2.5 flex flex-row">
+                        <input className="results-name font-bold rounded-md pl-1.5 mr-2" type="text" placeholder="Name"></input>
+                        <input className="results-email font-bold rounded-md pl-1.5 mr-2"  type="email" placeholder="Business Email"></input>
+                        <button disabled={buttonDisable} className="questions-next-btn bg-gray-400 rounded-md font-bold p-1">
+                           <Link to='/results' state={answerList}>{generalCMS.view_results_button}</Link>
+                        </button>                    
+                    </div>
+                </div>
             </div>
         )
     } else if (notFound) {
