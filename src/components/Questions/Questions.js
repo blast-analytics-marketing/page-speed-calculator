@@ -7,59 +7,35 @@ function Questions() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
 
-    // console.log(formGeneral, 'formGeneral')
-    // console.log(formQuestions, 'formQuestion')
-
-    const testingData = {
-        btnText: "Next",
-        btnText2: "View your results"
-    }   
-
-    const formQuestionsTest = {
-        0: { q: "What is your current site speed (seconds)?", a: "" },
-        1: { q: "What is your monthly average sessions?", a: "" },
-        2: { q: "Average order value ($)?", a: "" },
-        3: { q: "Estimated Conversion Rate (%)", a: "" },
-        4: { q: "New target site speed (seconds)", a: "" },
-        5: { q: "What is your industry?", a: "" },
-        6: { q: "Enter your email", a: "" },
-    }
-
-    const industryOptions = ['yo']
-
     const [formProgress, setFormProgress] = useState(0);
     const [buttonDisable, setButtonDisable] = useState(true);
-    const [answer, setAnswer] = useState('');
     const [answerList, setAnswerList] = useState({});
     const [cmsData, setCmsData] = useState({});
-
 
     const notFound =
         formGeneralState.state === "failed" || formQuestionsState.state === "failed";
 
-    let currentQuestion = formQuestionsTest[formProgress].q
-    let currentQuestionNum = `${formProgress + 1}.`
 
     const submitData = async (data) => {
         // Data Submission Logic Here (Usage of API, etc.)
     }
 
     const handleNextClick = async () => {
-        let newAnswerList = {
-            ...answerList
-        }
-        newAnswerList[formProgress] = {}
-        newAnswerList[formProgress].q = formQuestionsTest[formProgress].q
-        newAnswerList[formProgress].a = answer
+        // let newAnswerList = {
+        //     ...answerList
+        // }
+        // newAnswerList[formProgress] = {}
+        // newAnswerList[formProgress].q = formQuestionsTest[formProgress].q
+        // newAnswerList[formProgress].a = answer
 
-        setAnswerList(newAnswerList)
-        setFormProgress(formProgress + 1)
-        setAnswer('')
-        setButtonDisable(true)
+        // setAnswerList(newAnswerList)
+        // setFormProgress(formProgress + 1)
+        // setAnswer('')
+        // setButtonDisable(true)
 
-        if (formProgress === Object.keys(formQuestionsTest).length - 1) {
-            // await submitData(data)
-        }
+        // if (formProgress === Object.keys(formQuestionsTest).length - 1) {
+        //     // await submitData(data)
+        // }
     }
 
     const filterQuestionData = (cmsData) => {
@@ -75,9 +51,12 @@ function Questions() {
         return formQuestionsCleaned
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e, questionNum) => {
         checkValidity(e)
-        setAnswer(e.target.value)
+        setAnswerList({
+            ...answerList, 
+            questionNum: e.target.value
+        })
     }
 
     const checkValidity = (e) => {
@@ -87,6 +66,20 @@ function Questions() {
         }
     }
 
+    const mapInputType = (type, questionNum, options) => {
+        if (type === 'Dropdown'){
+            return (
+                <select className={`dropdown-input text-center w-3/6`} defaultValue="Select Industry" onChange={e => handleChange(e, questionNum)}>
+                    <option key={0} value={"Select Industry"} disabled={true}>Select Industry</option>
+                    {options.map((o, i)=> <option key={i+1} value={o.option}>{o.option}</option>)}
+                </select>   
+            )
+        } else if (type === 'Integer') {
+            return <input type="number" className={`integer-input text-center w-2/6`} min="0" step="100" defaultValue={0} value={answerList[questionNum]} onChange={e => handleChange(e, questionNum)}/>
+        } else { //Float
+            return <input type="number" className={`float-input text-center w-2/6`} min="0" step="0.01" defaultValue={0} value={answerList[questionNum]} onChange={e => handleChange(e, questionNum)}/>
+        }
+    }
 
     if (formQuestions && formGeneral) {
         const questionsCMS = filterQuestionData(formQuestions);
@@ -97,24 +90,24 @@ function Questions() {
         return (
             <div className="questions-page flex flex-col items-center justify-center h-min">
                 <div className="questions-header p-0 content-start w-4/6 pb-10">
-                    <div class="questions-title">{generalCMS.form_header_title}</div> 
-                    <div class="questions-subtitle">{generalCMS.form_header_text}</div> 
+                    <div className="questions-title">{generalCMS.form_header_title}</div> 
+                    <div className="questions-subtitle">{generalCMS.form_header_text}</div> 
                 </div>
-                {/* <div className="questions-container items-center"> */}
-                    {
-                        Object.keys(questionsCMS).map(q => {
-                            return (
-                                <div class="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
-                                    <div class="bg-orange-400 text-left flex flex-col w-3/6">{questionsCMS[q].title}</div>
-                                    <div class="bg-orange-500 text-right flex flex-col w-3/6">2</div>
-                                </div> 
-                            )
-                        })
-                    }
-                                        
-                {/* </div> */}
+                {
+                    Object.keys(questionsCMS).map((q, i) => {
+                        return (
+                            <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4" key={i}>
+                                <div className="bg-orange-400 text-left flex flex-col w-3/6">{questionsCMS[q].title}</div>
+                                <div className="bg-orange-500 text-right flex flex-col justify-center items-center w-3/6">{mapInputType(questionsCMS[q].type, q ,questionsCMS[q].dropdownOptions)}</div>
+                            </div> 
+                        )
+                    })
+                }                                      
             </div>
-
+        )
+    } else if (notFound) {
+        return <div>LOADING...</div>
+    }
             // <div className="questions-page">
             //     <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
             //     <div className="questions-input-container">
@@ -146,11 +139,6 @@ function Questions() {
             //             </button>
             //     }
             // </div>
-        )
-    } else if (notFound) {
-        return <div>LOADING...</div>
-    }
-
 }
 
 export default Questions;
