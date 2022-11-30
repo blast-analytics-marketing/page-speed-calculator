@@ -7,35 +7,14 @@ function Questions() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
 
-    const [formProgress, setFormProgress] = useState(0);
     const [buttonDisable, setButtonDisable] = useState(true);
     const [answerList, setAnswerList] = useState({});
-    const [cmsData, setCmsData] = useState({});
-
+  
     const notFound =
         formGeneralState.state === "failed" || formQuestionsState.state === "failed";
 
-
     const submitData = async (data) => {
         // Data Submission Logic Here (Usage of API, etc.)
-    }
-
-    const handleNextClick = async () => {
-        // let newAnswerList = {
-        //     ...answerList
-        // }
-        // newAnswerList[formProgress] = {}
-        // newAnswerList[formProgress].q = formQuestionsTest[formProgress].q
-        // newAnswerList[formProgress].a = answer
-
-        // setAnswerList(newAnswerList)
-        // setFormProgress(formProgress + 1)
-        // setAnswer('')
-        // setButtonDisable(true)
-
-        // if (formProgress === Object.keys(formQuestionsTest).length - 1) {
-        //     // await submitData(data)
-        // }
     }
 
     const filterQuestionData = (cmsData) => {
@@ -53,10 +32,11 @@ function Questions() {
 
     const handleChange = (e, questionNum) => {
         checkValidity(e)
-        setAnswerList({
-            ...answerList, 
-            questionNum: e.target.value
-        })
+        let newAnswerList = {
+            ...answerList,
+        }
+        newAnswerList[questionNum] = e.target.value
+        setAnswerList(newAnswerList)
     }
 
     const checkValidity = (e) => {
@@ -103,12 +83,12 @@ function Questions() {
                         )
                     })
                 }
-                <span class="w-full my-8 py-0.5 bg-gray-200 lg:w-2/4"></span>
-                <div className="results-container p-6 bg-gray-500 max-w-2/4 min-h-250 flex flex-col justify-center items-start">
+                <span className="w-full my-8 py-0.5 bg-gray-200 lg:w-2/4"></span>
+                <div className="results-container p-6 bg-gray-500 max-w-2/4 min-h-250 flex flex-col justify-center items-start"> {/* RESULTS BOX */}
                     <div className="results-title font-extrabold">{generalCMS.contact_info_text}</div>
                     <div className="results-inputs py-2.5 flex flex-row">
-                        <input className="results-name font-bold rounded-md pl-1.5 mr-2" type="text" placeholder="Name"></input>
-                        <input className="results-email font-bold rounded-md pl-1.5 mr-2"  type="email" placeholder="Business Email"></input>
+                        <input className="results-name font-bold rounded-md pl-1.5 mr-2" type="text" placeholder="Name" value={answerList["name"]} onChange={e => handleChange(e, "name")}></input>
+                        <input className="results-email font-bold rounded-md pl-1.5 mr-2"  type="email" placeholder="Business Email" value={answerList["email"]} onChange={e => handleChange(e, "email")}></input>
                         <button disabled={buttonDisable} className="questions-next-btn bg-gray-400 rounded-md font-bold p-1">
                            <Link to='/results' state={answerList}>{generalCMS.view_results_button}</Link>
                         </button>                    
@@ -119,37 +99,6 @@ function Questions() {
     } else if (notFound) {
         return <div>LOADING...</div>
     }
-            // <div className="questions-page">
-            //     <h1 className="questions-title">{`${currentQuestionNum} ${currentQuestion}`}</h1>
-            //     <div className="questions-input-container">
-            //         {
-            //             formProgress === 5 ?
-            //                 <select className="questions-input-dropdown" name="industry" defaultValue={industryOptions[0]} onChange={e => handleChange(e)}>
-            //                     {
-            //                         industryOptions.map((industry, i) =>
-            //                             <option key={i} value={industry} disabled={i === 0 ? true : false}>{industry}</option>
-            //                         )
-            //                     }
-            //                 </select>
-            //                 :
-            //                 formProgress >= Object.keys(formQuestionsTest).length - 1
-            //                     ?
-            //                     <input className="questions-input-email" type="email" value={answer} onChange={e => handleChange(e)} />
-            //                     :
-            //                     <input className="questions-input" type="value" value={answer} onChange={e => handleChange(e)} />
-            //         }
-            //     </div>
-            //     {
-            //         formProgress >= Object.keys(formQuestionsTest).length - 1 ?
-            //             <button disabled={buttonDisable} className="questions-next-btn">
-            //                 <Link to='/results' state={answerList}>{testingData.btnText2}</Link>
-            //             </button>
-            //             :
-            //             <button disabled={buttonDisable} className="questions-next-btn" onClick={e => handleNextClick(e)}>
-            //                 {testingData.btnText}
-            //             </button>
-            //     }
-            // </div>
 }
 
 export default Questions;

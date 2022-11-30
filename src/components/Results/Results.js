@@ -36,7 +36,7 @@ function Results() {
 
     useEffect(() => {
         // Pull in CMS Data Here 
-        console.log(answers);
+        console.log(answers, 'answers');
         setResults(calculator(answers))
         setLoading(false)
     }, [answers])
@@ -48,31 +48,39 @@ function Results() {
         return (
             <div className="results-page flex flex-col items-center justify-center h-min">
                 <div className="results-header content-start w-4/6 pb-10">
-                    <div className="results-header-title font-bold">{cmsData.results_title}</div>
-                    <div className="results-header-subtitle ">{cmsData.results_header_text}</div>
+                    <div className="results-header-title font-bold text-xxl">{cmsData.results_title}</div>
+                    <div className="results-header-subtitle text-xl">{cmsData.results_header_text}</div>
                 </div>
-                <div className="bg-green-900 text-center py-4 w-2/4">
-                    {cmsData.current_revenue_text}
-                    <p className="current-revenue-result"><strong>{results.currentRevenue}</strong></p>
+                <div className="bg-green-800 text-center py-4 w-2/4 text-xxl">
+                    <strong>{cmsData.current_revenue_text}</strong>
+                    <p className="current-revenue-result">{results.currentRevenue}</p>
                 </div> 
                 <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
-                    <div className="bg-orange-400 text-center flex flex-col w-3/6">
-                        {cmsData.new_revenue_text}
-                        <p className="current-revenue-result"><strong>{results.newRevenue}</strong></p>
+                    <div className="bg-orange-400 text-center flex flex-col w-3/6 justify-center text-xl">
+                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-w-[200px] min-h-full">
+                            <strong>{cmsData.new_revenue_text}</strong>
+                            <p className="current-revenue-result">{results.newRevenue}</p>
+                        </div>
                     </div>
-                    <div className="bg-orange-500 text-center flex flex-col w-3/6">
-                        {cmsData.annual_gain_text}
-                        <p className="current-revenue-result"><strong>{results.monthlyGain}</strong></p>
+                    <div className="bg-orange-500 text-center flex flex-col w-3/6 justify-center text-xl">
+                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-w-[200px] min-h-full">
+                            <strong>{cmsData.monthly_gain_text}</strong>
+                            <p className="current-revenue-result">{results.monthlyGain}</p>
+                        </div>
                     </div>
                 </div> 
                 <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
-                    <div className="bg-orange-400 text-center flex flex-col w-3/6">
-                        {cmsData.monthly_gain_text}
-                        <p className="current-revenue-result"><strong>{results.annualGain}</strong></p>
+                    <div className="bg-orange-400 text-center flex flex-col w-3/6 justify-center text-xl">
+                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-h-full">
+                            <strong>{cmsData.annual_gain_text}</strong>
+                            <p className="current-revenue-result">{results.annualGain}</p>
+                        </div>
                     </div>
-                    <div className="bg-orange-500 text-center flex flex-col w-3/6">
-                        {cmsData.page_speed_change_text}
-                        <p className="current-revenue-result"><strong>{results.pageSpeedChange}</strong></p>
+                    <div className="bg-orange-500 text-center flex flex-col w-3/6 justify-center text-xl">
+                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-h-full">
+                            <strong>{cmsData.page_speed_change_text}</strong>
+                            <p className="current-revenue-result">{results.pageSpeedChange}</p>
+                        </div>
                     </div>
                 </div> 
                 <div className="notes-section content-start w-4/6 pb-10">

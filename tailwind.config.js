@@ -8,6 +8,15 @@ module.exports = {
     container: {
       center: true,
     },
+    fontSize: {
+      sm: '0.8rem',
+      base: '1rem',
+      xl: '1.25rem',
+      xxl: '1.563rem',
+      xxxl: '1.953rem',
+      xxxxl: '2.441rem',
+      xxxxxl: '3.052rem',
+    }
   },
   plugins: [],
 }
