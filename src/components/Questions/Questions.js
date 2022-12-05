@@ -70,7 +70,7 @@ function Questions() {
     const mapInputType = (type, questionNum, options) => {
         if (type === 'Dropdown'){
             return (
-                <select className={`dropdown-input text-center w-4/6 ${Styles.input_dropdown}`} defaultValue="Select Industry" onChange={e => handleChange(e, questionNum)}>
+                <select className={`dropdown-input text-center w-4/6 rounded-sm ${Styles.input_dropdown}`} defaultValue="Select Industry" onChange={e => handleChange(e, questionNum)}>
                     <option key={0} value={"Select Industry"} disabled={true}>Select Industry</option>
                     {options.map((o, i)=> <option key={i+1} value={o.option}>{o.option}</option>)}
                 </select>   

@@ -15,20 +15,16 @@ export const client = prismic.createClient(repositoryName, {
   // to an empty array or remove the option entirely.
   routes: [
     {
-      type: 'homepage',
-      path: '/',
-    },
-    {
         type: 'form_question',
-        path: '/questions',
+        path: '/',
     },
     {
         type: 'form_general',
-        path: '/questions',
+        path: '/',
     },
     {
         type: 'form_question_dropdown',
-        path: '/questions',
+        path: '/',
     },
     {
         type: 'results',
