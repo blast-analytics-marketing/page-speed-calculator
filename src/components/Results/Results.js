@@ -25,6 +25,14 @@ function Results() {
             annualGain: '$2,824,875',
             pageSpeedChange: '-8.98%'
         };
+        // currentSiteSpeed: answerList[1],
+        // avgMonthlySessions: answerList[2],
+        // avgOrderVal: answerList[3],
+        // estConversionRate: answerList[4],
+        // targetSiteSpeed: answerList[5],
+        // industry: answerList[6],
+        // name: answerList.name,
+        // email: answerList.email
 
         // results.currentRevenue = Avg Monthly Sessions * Estimated Conversion Rate.toFixed(2) * Average Order Value
         // results.newRevenue =  ???
@@ -47,42 +55,44 @@ function Results() {
 
         return (
             <div className="results-page flex flex-col items-center justify-center h-min">
+
                 <div className="results-header content-start w-4/6 pb-10">
                     <div className="results-header-title font-bold text-xxl">{cmsData.results_title}</div>
                     <div className="results-header-subtitle text-xl">{cmsData.results_header_text}</div>
                 </div>
-                <div className="bg-green-800 text-center py-4 w-2/4 text-xxl">
+
+                <div className="bg-neutral-700 text-center py-4 w-2/4 text-xxl text-[#fafafa]">
                     <strong>{cmsData.current_revenue_text}</strong>
                     <p className="current-revenue-result">{results.currentRevenue}</p>
                 </div> 
-                <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
-                    <div className="bg-orange-400 text-center flex flex-col w-3/6 justify-center text-xl">
-                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-w-[200px] min-h-full">
+                <div className="flex flex-row py-4 flex-wrap w-2/4">
+                    <div className="tile-container w-1/2 py-2 flex flex-col">
+                        <div className="bg-gray-100 text-center flex flex-col w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <strong>{cmsData.new_revenue_text}</strong>
                             <p className="current-revenue-result">{results.newRevenue}</p>
                         </div>
                     </div>
-                    <div className="bg-orange-500 text-center flex flex-col w-3/6 justify-center text-xl">
-                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-w-[200px] min-h-full">
+                    <div className="tile-container w-1/2 py-2 flex flex-col items-end">
+                        <div className="bg-gray-100 text-center flex flex-col  w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <strong>{cmsData.monthly_gain_text}</strong>
                             <p className="current-revenue-result">{results.monthlyGain}</p>
                         </div>
                     </div>
-                </div> 
-                <div className="bg-green-900 flex flex-row py-4 flex-wrap w-2/4">
-                    <div className="bg-orange-400 text-center flex flex-col w-3/6 justify-center text-xl">
-                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-h-full">
-                            <strong>{cmsData.annual_gain_text}</strong>
+                        <div className="tile-container w-1/2 py-2 flex flex-col">
+                    <div className="bg-gray-100 text-center flex flex-col  w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                            <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
                             <p className="current-revenue-result">{results.annualGain}</p>
                         </div>
                     </div>
-                    <div className="bg-orange-500 text-center flex flex-col w-3/6 justify-center text-xl">
-                        <div className="bg-gray-100 data-text-wrapper flex flex-col justify-center px-8 py-6 border-2 border-gray-200 min-h-full">
-                            <strong>{cmsData.page_speed_change_text}</strong>
+                    <div className="tile-container w-1/2 py-2 flex flex-col items-end">
+                        <div className="bg-gray-100 text-center flex flex-col w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                            <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
                             <p className="current-revenue-result">{results.pageSpeedChange}</p>
                         </div>
                     </div>
+
                 </div> 
+
                 <div className="notes-section content-start w-4/6 pb-10">
                     <div className="notes-title font-bold">{cmsData.supporting_data_title}</div>
                     <div className="notes-subtitle ">{cmsData.supporting_data_text}</div>
@@ -95,15 +105,6 @@ function Results() {
                     </ul>
                 </div>
             </div>
-            // <div className="results-container">
-            //     <h2>Business Impact</h2>
-            //     <p>{cmsData.text1} <strong>{results.currentRevenue}</strong></p>
-            //     <p>{cmsData.text2} <strong>{results.newRevenue}</strong></p>
-            //     <p>{cmsData.text3} <strong>{results.monthlyGain}</strong></p>
-            //     <p>{cmsData.text4} <strong>{results.annualGain}</strong></p>
-            //     <p>{cmsData.text5} <strong>{results.pageSpeedChange}</strong></p>
-            //     <p><i>Potential Thank You Message</i></p>
-            // </div>
         )
 
     } else if (isLoading || notFound) {
