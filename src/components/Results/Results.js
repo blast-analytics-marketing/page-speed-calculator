@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSinglePrismicDocument } from '@prismicio/react';
-import { useLocation } from "react-router-dom";
-import './Results.css';
+import { useLocation, useNavigate } from "react-router-dom";
+import Util from '../Util';
 
 function Results() {
 
     const location = useLocation(); //Answers from Questions Component 
-
+    const navigate = useNavigate();
     const answers = location.state;
     const [isLoading, setLoading] = useState(true);
     const [results, setResults] = useState({});
-
 
     const [resultsCMS, resultsCMSState] = useSinglePrismicDocument('results');
     console.log(resultsCMS, 'resultsCMS')
@@ -43,10 +42,14 @@ function Results() {
     };
 
     useEffect(() => {
-        // Pull in CMS Data Here 
+
         console.log(answers, 'answers');
+        if (Util.readCookie('authorized') !== 'true')  navigate('/auth')
+        if (!answers || !answers.finalAnswerList ) navigate('/')
+
         setResults(calculator(answers))
         setLoading(false)
+
     }, [answers])
 
 

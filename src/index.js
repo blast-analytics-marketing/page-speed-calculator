@@ -4,6 +4,7 @@ import './index.css';
 import Error from './components/Error/Error';
 import Results from './components/Results/Results';
 import Questions from './components/Questions/Questions';
+import Auth from './components/Auth/Auth';
 
 
 import { PrismicProvider } from '@prismicio/react';
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Questions/>,
+    errorElement: <Error/>
+  },
+  {
+    path: "/auth",
+    element: <Auth/>,
     errorElement: <Error/>
   },
 ]);

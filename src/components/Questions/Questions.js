@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSinglePrismicDocument, useAllPrismicDocumentsByType } from '@prismicio/react';
 import Styles from './Style.js';
+import Util from '../Util';
 
 function Questions() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
@@ -14,6 +15,14 @@ function Questions() {
         formGeneralState.state === "failed" || formQuestionsState.state === "failed";
 
     const navigate = useNavigate();
+
+    const handleAuth = () => {
+        if ( Util.readCookie('authorized') === 'true' ) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     const submitData = async () => {
         
@@ -34,7 +43,7 @@ function Questions() {
             email: answerList.email
         }
 
-        navigate('/results', { state: finalAnswerList })
+        navigate('/results', { state: { finalAnswerList } })
         // Data Submission Logic Here (Usage of API, etc.)
     }
 
@@ -81,6 +90,11 @@ function Questions() {
             return <input type="number" className={`float-input text-center w-2/6 ${Styles.input_number}`} min="0" step="0.01" defaultValue={0} value={answerList[questionNum]} onChange={e => handleChange(e, questionNum)}/>
         }
     }
+
+
+    useEffect(() => {
+        if (!handleAuth()) navigate('/auth')
+    }, [])
 
     if (formQuestions && formGeneral) {
         const questionsCMS = filterQuestionData(formQuestions);
