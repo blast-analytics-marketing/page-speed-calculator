@@ -7,7 +7,8 @@ function Results() {
 
     const location = useLocation(); //Answers from Questions Component 
     const navigate = useNavigate();
-    const answers = location.state;
+    const props = location.state;
+    
     const [isLoading, setLoading] = useState(true);
     const [results, setResults] = useState({});
 
@@ -16,7 +17,7 @@ function Results() {
 
     const notFound = resultsCMSState.state === 'failed';
 
-    const calculator = answers => {
+    const calculator = (answers) => {
         const results = {
             currentRevenue: '$23,540,625',
             newRevenue: '$23,776,031',
@@ -32,25 +33,37 @@ function Results() {
         // industry: answerList[6],
         // name: answerList.name,
         // email: answerList.email
-
+        console.log(answers)
         // results.currentRevenue = Avg Monthly Sessions * Estimated Conversion Rate.toFixed(2) * Average Order Value
+        results.currentRevenue = (answers.avgMonthlySessions * answers.estConversionRate) * answers.avgOrderVal;
         // results.newRevenue =  ???
+        results.newRevenue = ((((((answers.currentSiteSpeed - answers.targetSiteSpeed) * 0.02) * answers.estConversionRate) + answers.estConversionRate) * answers.avgMonthlySessions) * answers.avgOrderVal)
         // results.incRevenueGainMonthly = New Revenue - Current Revenue
+        results.monthlyGain = results.newRevenue - results.currentRevenue
         // results.incRevenueGainAnnaul = New Revenue - Current Revenue * 12
+        results.annualGain = results.monthlyGain * 12
         // results.pageSpeedChange = Math.abs( (New Speed - Current Speed) / Current Speed * 100  ).toFixed(2)
+        results.pageSpeedChange = Math.abs((answers.targetSiteSpeed - answers.currentSiteSpeed) / answers.currentSiteSpeed * 100).toFixed(2)
+
+        results.currentRevenue = results.currentRevenue
+
+
+        Object.keys(results).forEach(result => { 
+            results[result] = results[result].toLocaleString('en-US' , { style: 'currency', currency: 'USD' })
+        })
+    
         return results;
     };
 
     useEffect(() => {
 
-        console.log(answers, 'answers');
         if (Util.readCookie('authorized') !== 'true')  navigate('/auth')
-        if (!answers || !answers.finalAnswerList ) navigate('/')
+        if (!props || !props.finalAnswerList ) navigate('/')
 
-        setResults(calculator(answers))
+        setResults(calculator(props.finalAnswerList))
         setLoading(false)
 
-    }, [answers])
+    }, [props])
 
 
     if (resultsCMS) {
@@ -70,27 +83,27 @@ function Results() {
                 </div> 
                 <div className="flex flex-row py-4 flex-wrap w-2/4">
                     <div className="tile-container w-1/2 py-2 flex flex-col">
-                        <div className="bg-gray-100 text-center flex flex-col w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                        <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <strong>{cmsData.new_revenue_text}</strong>
                             <p className="current-revenue-result">{results.newRevenue}</p>
                         </div>
                     </div>
                     <div className="tile-container w-1/2 py-2 flex flex-col items-end">
-                        <div className="bg-gray-100 text-center flex flex-col  w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                        <div className="bg-gray-100 text-center flex flex-col  w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <strong>{cmsData.monthly_gain_text}</strong>
                             <p className="current-revenue-result">{results.monthlyGain}</p>
                         </div>
                     </div>
                         <div className="tile-container w-1/2 py-2 flex flex-col">
-                    <div className="bg-gray-100 text-center flex flex-col  w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                    <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
                             <p className="current-revenue-result">{results.annualGain}</p>
                         </div>
                     </div>
                     <div className="tile-container w-1/2 py-2 flex flex-col items-end">
-                        <div className="bg-gray-100 text-center flex flex-col w-[98%] max-sm:w-full justify-center text-xl px-8 py-6 border-2">
+                        <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
                             <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
-                            <p className="current-revenue-result">{results.pageSpeedChange}</p>
+                            <p className="current-revenue-result">-{results.pageSpeedChange}%</p>
                         </div>
                     </div>
 

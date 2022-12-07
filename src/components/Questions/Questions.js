@@ -9,7 +9,10 @@ function Questions() {
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
 
     const [buttonDisable, setButtonDisable] = useState(true);
-    const [answerList, setAnswerList] = useState({});
+    const [answerList, setAnswerList] = useState({
+        'name': '',
+        'email': ''
+    });
   
     const notFound =
         formGeneralState.state === "failed" || formQuestionsState.state === "failed";
@@ -33,11 +36,11 @@ function Questions() {
         // results.pageSpeedChange = Math.abs( (New Speed - Current Speed) / Current Speed * 100  ).toFixed(2)
 
         const finalAnswerList = {
-            currentSiteSpeed: answerList[1],
-            avgMonthlySessions: answerList[2],
-            avgOrderVal: answerList[3],
-            estConversionRate: answerList[4],
-            targetSiteSpeed: answerList[5],
+            currentSiteSpeed: parseFloat(answerList[1]),
+            avgMonthlySessions: Number(answerList[2]),
+            avgOrderVal: parseFloat(answerList[3]),
+            estConversionRate: parseFloat(answerList[4]) * Math.pow(10, -2),
+            targetSiteSpeed: parseFloat(answerList[5]),
             industry: answerList[6],
             name: answerList.name,
             email: answerList.email
@@ -76,6 +79,7 @@ function Questions() {
         }
     }
 
+
     const mapInputType = (type, questionNum, options) => {
         if (type === 'Dropdown'){
             return (
@@ -85,9 +89,9 @@ function Questions() {
                 </select>   
             )
         } else if (type === 'Integer') {
-            return <input type="number" className={`integer-input text-center w-2/6 ${Styles.input_number}`} min="0" step="100" defaultValue={0} value={answerList[questionNum]} onChange={e => handleChange(e, questionNum)}/>
+            return <input type="number" className={`integer-input text-center w-2/6 ${Styles.input_number}`} min="0" step="100" value={answerList[questionNum] || 0} onChange={e => handleChange(e, questionNum)}/>
         } else { //Float
-            return <input type="number" className={`float-input text-center w-2/6 ${Styles.input_number}`} min="0" step="0.01" defaultValue={0} value={answerList[questionNum]} onChange={e => handleChange(e, questionNum)}/>
+            return <input type="number" className={`float-input text-center w-2/6 ${Styles.input_number}`} min="0" step="0.01" value={answerList[questionNum] || 0} onChange={e => handleChange(e, questionNum)}/>
         }
     }
 
