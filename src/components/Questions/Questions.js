@@ -9,6 +9,7 @@ function Questions() {
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
 
     const [buttonDisable, setButtonDisable] = useState(true);
+    const [formError, setFormError] = useState(false);
     const [answerList, setAnswerList] = useState({
         'name': '',
         'email': ''
@@ -100,6 +101,14 @@ function Questions() {
         if (!handleAuth()) navigate('/auth')
     }, [])
 
+    let errorMessage;
+    if (formError) {
+        errorMessage = <p className="text-red">Please enter a value for all fields</p>
+    } else {
+        errorMessage = <p className="hidden">Test</p>
+
+    }
+
     if (formQuestions && formGeneral) {
         const questionsCMS = filterQuestionData(formQuestions);
         const generalCMS = { ...formGeneral.data }
@@ -123,6 +132,7 @@ function Questions() {
                     })
                 }
                 <span className="w-full my-8 py-0.5 bg-gray-200 lg:w-2/4"></span>
+                {errorMessage}
                 <div className="results-container p-6 bg-neutral-700 min-w-[50%] min-h-250 flex flex-col justify-center items-start"> {/* RESULTS BOX */}
                     <div className="results-title font-extrabold text-[#fafafa]">{generalCMS.contact_info_text}</div>
                     <div className="results-inputs py-2.5 flex flex-row">
