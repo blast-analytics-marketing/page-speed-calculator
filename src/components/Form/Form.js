@@ -3,12 +3,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSinglePrismicDocument, useAllPrismicDocumentsByType } from '@prismicio/react';
 import Styles from './Style.js';
 import Util from '../Util';
-// 
+
 function Form() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
     const [resultsCMS, resultsCMSState] = useSinglePrismicDocument('results');
-    const [Numresults, setResults] = useState({});
     const [resultsNum, setResultsNum] = useState({
         currentRevenue: 0,
         newRevenue: 0,
@@ -20,126 +19,11 @@ function Form() {
         'name': '',
         'email': ''
     });
-
-    // console.log(resultsCMS, 'resultsCMS')
-
-    const [buttonDisable, setButtonDisable] = useState(true);
+    const [arrows, setArrows] = useState(false);
     const [formError, setFormError] = useState(false);
 
     const notFound =
-        formGeneralState.state === "failed" || formQuestionsState.state === "failed";
-
-    const navigate = useNavigate();
-
-    const handleAuth = () => {
-        if (Util.readCookie('authorized') === 'true') {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    const calculator = () => {
-        // const calcs = {
-        //     currentRevenue: '$23,540,625',
-        //     newRevenue: '$23,776,031',
-        //     monthlyGain: '$235,406',
-        //     annualGain: '$2,824,875',
-        //     pageSpeedChange: '-8.98%'
-        // };
-
-        // currentSiteSpeed: answerList[1],
-        // avgMonthlySessions: answerList[2],
-        // avgOrderVal: answerList[3],
-        // estConversionRate: answerList[4],
-        // targetSiteSpeed: answerList[5],
-        // industry: answerList[6],
-        // name: answerList.name,
-        // email: answerList.email
-
-        const calcs = {
-            currentRevenue: 0,
-            newRevenue: 0,
-            monthlyGain: 0,
-            annualGain: 0,
-            pageSpeedChange: 0
-        }
-
-        const answers = {
-            currentSiteSpeed: parseFloat(answerList[1]),
-            avgMonthlySessions: Number(answerList[2]),
-            avgOrderVal: parseFloat(answerList[3]),
-            estConversionRate: parseFloat(answerList[4]) * Math.pow(10, -2),
-            targetSiteSpeed: parseFloat(answerList[5]),
-            industry: answerList[6],
-            name: answerList.name,
-            email: answerList.email
-        }
-
-        console.log("ANSWERS FIRED 88888888", answers);
-        if (answers && answers.avgMonthlySessions && answers.estConversionRate && answers.avgOrderVal) {
-            // calcs.currentRevenue = Avg Monthly Sessions * Estimated Conversion Rate.toFixed(2) * Average Order Value
-            calcs.currentRevenue = (answers.avgMonthlySessions * answers.estConversionRate) * answers.avgOrderVal;
-            let newState = resultsNum
-            newState.currentRevenue =  calcs.currentRevenue
-            setResultsNum( newState )
-        }
-
-        if (answers && answers.currentSiteSpeed && answers.targetSiteSpeed && answers.estConversionRate && answers.avgMonthlySessions && answers.avgOrderVal) {
-            calcs.newRevenue = ((((((answers.currentSiteSpeed - answers.targetSiteSpeed) * 0.02) * answers.estConversionRate) + answers.estConversionRate) * answers.avgMonthlySessions) * answers.avgOrderVal)
-            console.log('newRevenue FIRED 88888888', calcs.newRevenue)
-            let newState = resultsNum
-            newState.newRevenue =  calcs.newRevenue
-            setResultsNum( newState )
-        } 
-        if(resultsNum.newRevenue && resultsNum.currentRevenue) {
-            // calcs.incRevenueGainMonthly = New Revenue - Current Revenue
-            calcs.monthlyGain = resultsNum.newRevenue - resultsNum.currentRevenue 
-            let newState = resultsNum
-            newState.monthlyGain =  calcs.monthlyGain 
-            setResultsNum( newState )
-        }
-        if (resultsNum.monthlyGain) {
-            // calcs.incRevenueGainAnnaul = New Revenue - Current Revenue * 12
-            calcs.annualGain = resultsNum.monthlyGain * 12
-            let newState = resultsNum
-            newState.annualGain = calcs.annualGain 
-            setResultsNum( newState )
-        }
-        if (answers && answers.targetSiteSpeed && answers.currentSiteSpeed) {
-            // calcs.pageSpeedChange = Math.abs( (New Speed - Current Speed) / Current Speed * 100  ).toFixed(2)
-            calcs.pageSpeedChange = Math.abs((answers.targetSiteSpeed - answers.currentSiteSpeed) / answers.currentSiteSpeed * 100).toFixed(2)
-
-            let newState = resultsNum
-            newState.pageSpeedChange = calcs.pageSpeedChange 
-            setResultsNum( newState )
-        }
-
-        Object.keys(calcs).forEach(result => { 
-                if (!result) calcs[result] = "--"
-        })
-
-        calcs.pageSpeedChange = calcs.pageSpeedChange + "%"
-        
-        return calcs;
-    };
-
-    const submitData = async () => {
-
-        const finalAnswerList = {
-            currentSiteSpeed: parseFloat(answerList[1]),
-            avgMonthlySessions: Number(answerList[2]),
-            avgOrderVal: parseFloat(answerList[3]),
-            estConversionRate: parseFloat(answerList[4]) * Math.pow(10, -2),
-            targetSiteSpeed: parseFloat(answerList[5]),
-            industry: answerList[6],
-            name: answerList.name,
-            email: answerList.email
-        }
-
-        return calculator(finalAnswerList)
-        // Data Submission Logic Here (Usage of API, etc.)
-    }
+        formGeneralState.state === "failed" || formQuestionsState.state === "failed" || resultsCMSState.state === "failed";
 
     const filterQuestionData = (cmsData) => {
         const formQuestionsCleaned = {};
@@ -195,6 +79,7 @@ function Form() {
             let newState = resultsNum
             newState.newRevenue =  calcs.newRevenue
             setResultsNum( newState )
+            setArrows(true)
         } 
         if(resultsNum.newRevenue && resultsNum.currentRevenue) {
             // calcs.incRevenueGainMonthly = New Revenue - Current Revenue
@@ -213,32 +98,14 @@ function Form() {
         if (answers && answers.targetSiteSpeed && answers.currentSiteSpeed) {
             // calcs.pageSpeedChange = Math.abs( (New Speed - Current Speed) / Current Speed * 100  ).toFixed(2)
             calcs.pageSpeedChange = Math.abs((answers.targetSiteSpeed - answers.currentSiteSpeed) / answers.currentSiteSpeed * 100).toFixed(2)
-
             let newState = resultsNum
-            newState.pageSpeedChange = calcs.pageSpeedChange 
+            newState.pageSpeedChange = "-" + calcs.pageSpeedChange + "%"
+        
             setResultsNum( newState )
         }
 
-        Object.keys(calcs).forEach(result => { 
-                if (!result) calcs[result] = "--"
-        })
-
-        calcs.pageSpeedChange = calcs.pageSpeedChange + "%"
-        
         return calcs;
-
-        //Calculator
-
-
     }
-
-    const checkValidity = (e) => {
-        let fieldValue = e.target.value;
-        if (fieldValue.length > 0) {
-            setButtonDisable(false)
-        }
-    }
-
 
     const mapInputType = (type, questionNum, options) => {
         if (type === 'Dropdown') {
@@ -255,10 +122,15 @@ function Form() {
         }
     }
 
+    const insertArrow = () => {
+        let el = ''; 
+        if(arrows) {
+            el = <i className="w-0 h-0 border-solid border-transparent border-b-black border-r-[6px] border-b-[12px] border-l-[6px] inline-block mr-1"></i>
+        } 
+        return el;
+    }
 
     useEffect(() => {
-        if (!handleAuth()) navigate('/auth')
-        setResults(calculator())
     }, [])
 
     let errorMessage;
@@ -305,30 +177,30 @@ function Form() {
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-t-2 border-x-2">
                                     <strong>{cmsData.new_revenue_text}</strong>
-                                    <p className="current-revenue-result">^{resultsNum.newRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className="current-revenue-result">{insertArrow(0)}{resultsNum.newRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col  w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <strong>{cmsData.monthly_gain_text}</strong>
-                                    <p className="current-revenue-result">^{resultsNum.monthlyGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className="current-revenue-result">{insertArrow(1)}{resultsNum.monthlyGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
-                                    <p className="current-revenue-result">^{resultsNum.annualGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className="current-revenue-result">{insertArrow(2)}{resultsNum.annualGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
-                                    <p className="current-revenue-result">^{resultsNum.pageSpeedChange.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}%</p>
+                                    <p className="current-revenue-result">{resultsNum.pageSpeedChange.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result-cta">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full items-center text-l px-8 py-4 border-x-2 border-b-2">
-                                    <button disabled={true} onClick={() => console.log('Clicked')} className="results-cta-btn bg-neutral-500 rounded-sm hover:bg-neutral-700 hover:cursor-pointer">
+                                    <button disabled={false} onClick={() => window.open('https://www.blastx.com/how-we-help', '_blank')} className="results-cta-btn bg-neutral-500 rounded-sm hover:bg-neutral-700 hover:cursor-pointer">
                                         <div className="results-cta-txt font-bold text-[#fafafa] px-4 py-2">How BlastX Can Help</div>
                                     </button>
                                 </div>
