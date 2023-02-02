@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Error from './components/Error/Error';
-import Results from './components/Results/Results';
-import Questions from './components/Questions/Questions';
+// import Results from './components/Results/Results';
+// import Questions from './components/Questions/Questions';
 import Auth from './components/Auth/Auth';
-
+import Form from './components/Form/Form';
 
 import { PrismicProvider } from '@prismicio/react';
 import { client } from './cms/prismic';
@@ -17,21 +17,17 @@ import {
 } from "react-router-dom";
 
 const router = createBrowserRouter([
-  {
-    path: "/results",
-    element: <Results />,
-    errorElement: <Error/>
-  },
+
   {
     path: "/",
-    element: <Questions/>,
+    element: <Form/>,
     errorElement: <Error/>
   },
   {
     path: "/auth",
     element: <Auth/>,
     errorElement: <Error/>
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

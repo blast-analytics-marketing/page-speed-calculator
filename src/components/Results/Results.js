@@ -57,8 +57,8 @@ function Results() {
 
     useEffect(() => {
 
-        if (Util.readCookie('authorized') !== 'true')  navigate('/auth')
-        if (!props || !props.finalAnswerList ) navigate('/')
+        // if (Util.readCookie('authorized') !== 'true')  navigate('/auth')
+        // if (!props || !props.finalAnswerList ) navigate('/')
 
         setResults(calculator(props.finalAnswerList))
         setLoading(false)
@@ -70,56 +70,43 @@ function Results() {
         const cmsData = resultsCMS.data;
 
         return (
-            <div className="results-page flex flex-col items-center justify-center h-min">
-
-                <div className="results-header content-start w-4/6 pb-10">
-                    <div className="results-header-title font-bold text-xxl">{cmsData.results_title}</div>
-                    <div className="results-header-subtitle text-xl">{cmsData.results_header_text}</div>
-                </div>
-
-                <div className="bg-neutral-700 text-center py-4 w-2/4 text-xxl text-[#fafafa]">
-                    <strong>{cmsData.current_revenue_text}</strong>
-                    <p className="current-revenue-result">{results.currentRevenue}</p>
-                </div> 
-                <div className="flex flex-row py-4 flex-wrap w-2/4">
-                    <div className="tile-container w-1/2 py-2 flex flex-col">
-                        <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
-                            <strong>{cmsData.new_revenue_text}</strong>
-                            <p className="current-revenue-result">{results.newRevenue}</p>
+            <div className="result-container">
+                        <div className='result-header'><strong>Expected Results:</strong></div>
+                        <div className="bg-neutral-700 text-center py-4 w-full text-xxl text-[#fafafa]">
+                            <strong>{cmsData.current_revenue_text}</strong>
+                            <p className="current-revenue-result">{results.currentRevenue}</p>
                         </div>
-                    </div>
-                    <div className="tile-container w-1/2 py-2 flex flex-col items-end">
-                        <div className="bg-gray-100 text-center flex flex-col  w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
-                            <strong>{cmsData.monthly_gain_text}</strong>
-                            <p className="current-revenue-result">{results.monthlyGain}</p>
+                        <div className="result">
+                            <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-t-2 border-x-2">
+                                <strong>{cmsData.new_revenue_text}</strong>
+                                <p className="current-revenue-result">^{results.newRevenue}</p>
+                            </div>
                         </div>
-                    </div>
-                        <div className="tile-container w-1/2 py-2 flex flex-col">
-                    <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
-                            <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
-                            <p className="current-revenue-result">{results.annualGain}</p>
+                        <div className="result">
+                            <div className="bg-gray-100 text-center flex flex-col  w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
+                                <strong>{cmsData.monthly_gain_text}</strong>
+                                <p className="current-revenue-result">^{results.monthlyGain}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="tile-container w-1/2 py-2 flex flex-col items-end">
-                        <div className="bg-gray-100 text-center flex flex-col w-[98%] h-full max-sm:w-full justify-center text-xl px-8 py-6 border-2">
-                            <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
-                            <p className="current-revenue-result">-{results.pageSpeedChange}%</p>
+                        <div className="result">
+                            <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
+                                <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
+                                <p className="current-revenue-result">^{results.annualGain}</p>
+                            </div>
                         </div>
-                    </div>
-
-                </div> 
-
-                <div className="notes-section content-start w-4/6 pb-10">
-                    <div className="notes-title font-bold">{cmsData.supporting_data_title}</div>
-                    <div className="notes-subtitle ">{cmsData.supporting_data_text}</div>
-                    <ul className="notes-list list-disc pl-8">
-                        {
-                            cmsData.supporting_data_bullets.map((data, i) => {
-                                return <li key={i}><a href={data.source} target="_blank"><span className="font-bold">{data.title}</span></a> {data.description}</li>
-                            })
-                        }
-                    </ul>
-                </div>
+                        <div className="result">
+                            <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
+                                <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
+                                <p className="current-revenue-result">^{results.pageSpeedChange}</p>
+                            </div>
+                        </div>
+                        <div className="result-cta">
+                            <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full items-center text-l px-8 py-4 border-x-2 border-b-2">
+                                <button disabled={true} onClick={() => console.log('Clicked')} className="results-cta-btn bg-neutral-500 rounded-sm hover:bg-neutral-700 hover:cursor-pointer">
+                                    <div className="results-cta-txt font-bold text-[#fafafa] px-4 py-2">How BlastX Can Help</div>
+                                </button>          
+                            </div>
+                        </div>
             </div>
         )
 
