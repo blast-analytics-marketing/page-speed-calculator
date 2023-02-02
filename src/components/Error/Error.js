@@ -1,5 +1,5 @@
-import { useRouteError } from "react-router-dom";
-import React, { useEffect} from 'react';
+import { useRouteError, Navigate } from "react-router-dom";
+import React from 'react';
 
 
 export default function ErrorPage() {
@@ -8,6 +8,7 @@ export default function ErrorPage() {
 
   return (
     <div id="error-page">
+      <Navigate to="/" replace={true} />
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>

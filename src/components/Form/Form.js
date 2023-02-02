@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSinglePrismicDocument, useAllPrismicDocumentsByType } from '@prismicio/react';
 import Styles from './Style.js';
-import Util from '../Util';
 
 function Form() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
@@ -39,15 +37,13 @@ function Form() {
     }
 
     const handleChange = (e, questionNum) => {
-        // checkValidity(e)
         let newAnswerList = {
             ...answerList,
         }
         newAnswerList[questionNum] = e.target.value
-
         setAnswerList(newAnswerList)
 
-        const calcs = {
+        const calcs = { // Holding Calculations if Needed
             currentRevenue: 0,
             newRevenue: 0,
             monthlyGain: 0,
@@ -151,7 +147,7 @@ function Form() {
         return (
             <div className="form-page flex flex-col items-center justify-center h-min">
                 <div className="form-header content-start w-5/6 py-10">
-                    <div className="form-title"><strong>{generalCMS.form_header_title}</strong></div>
+                    <div className="form-title text-xxl font-bold pb-2"><strong>{generalCMS.form_header_title}</strong></div>
                     <div className="form-subtitle">{generalCMS.form_header_text}</div>
                 </div>
                 <div className="form-container flex flex-row w-5/6 max-sm:flex-col">
@@ -160,7 +156,7 @@ function Form() {
                             Object.keys(questionsCMS).map((q, i) => {
                                 return (
                                     <div className="flex flex-col pb-4 flex-wrap items-start " key={i}>
-                                        <div className="text-left flex pb-5"><strong>{questionsCMS[q].title}</strong></div>
+                                        <div className="text-left font-bold text-l flex pb-5"><strong>{questionsCMS[q].title}</strong></div>
                                         <div className="text-right flex">{mapInputType(questionsCMS[q].type, q, questionsCMS[q].dropdownOptions)}</div>
                                     </div>
                                 )
@@ -176,25 +172,25 @@ function Form() {
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-t-2 border-x-2">
-                                    <strong>{cmsData.new_revenue_text}</strong>
+                                    <strong className="font-bold">{cmsData.new_revenue_text}</strong>
                                     <p className="current-revenue-result">{insertArrow(0)}{resultsNum.newRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col  w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
-                                    <strong>{cmsData.monthly_gain_text}</strong>
+                                    <strong className="font-bold">{cmsData.monthly_gain_text}</strong>
                                     <p className="current-revenue-result">{insertArrow(1)}{resultsNum.monthlyGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
-                                    <div className="block"><strong>{cmsData.annual_gain_text}</strong></div>
+                                    <strong className="font-bold">{cmsData.annual_gain_text}</strong>
                                     <p className="current-revenue-result">{insertArrow(2)}{resultsNum.annualGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
-                                    <div className="block"><strong>{cmsData.page_speed_change_text}</strong></div>
+                                    <strong className="font-bold">{cmsData.page_speed_change_text}</strong>
                                     <p className="current-revenue-result">{resultsNum.pageSpeedChange.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
@@ -226,7 +222,7 @@ function Form() {
                     <ul className="notes-list list-disc pl-8">
                         {
                             cmsData.supporting_data_bullets.map((data, i) => {
-                                return <li key={i}><a href={data.source} target="_blank"><span className="font-bold">{data.title}</span></a> {data.description}</li>
+                                return <li key={i} className="hover:underline"><a href={data.source} target="_blank"><span className="font-bold">{data.title}</span> {data.description}</a></li>
                             })
                         }
                     </ul>
