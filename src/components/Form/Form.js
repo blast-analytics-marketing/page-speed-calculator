@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSinglePrismicDocument, useAllPrismicDocumentsByType } from '@prismicio/react';
 import Styles from './Style.js';
-
+import './Form.css'
 function Form() {
     const [formGeneral, formGeneralState] = useSinglePrismicDocument('form_general')
     const [formQuestions, formQuestionsState] = useAllPrismicDocumentsByType('form_question')
@@ -18,7 +18,9 @@ function Form() {
         'email': ''
     });
     const [arrows, setArrows] = useState(false);
-    const [formError, setFormError] = useState(false);
+    const [swingAnim, setSwingAnim] = useState('');
+    const [swingAnim2, setSwingAnim2] = useState('');
+    const [formError, setFormError] = useState(false); // Not Hooked Up Yet
 
     const notFound =
         formGeneralState.state === "failed" || formQuestionsState.state === "failed" || resultsCMSState.state === "failed";
@@ -68,6 +70,7 @@ function Form() {
             let newState = resultsNum
             newState.currentRevenue =  calcs.currentRevenue
             setResultsNum( newState )
+            setSwingAnim2('slide-right')
         }
 
         if (answers && answers.currentSiteSpeed && answers.targetSiteSpeed && answers.estConversionRate && answers.avgMonthlySessions && answers.avgOrderVal) {
@@ -75,6 +78,7 @@ function Form() {
             let newState = resultsNum
             newState.newRevenue =  calcs.newRevenue
             setResultsNum( newState )
+            setSwingAnim('slide-right')
             setArrows(true)
         } 
         if(resultsNum.newRevenue && resultsNum.currentRevenue) {
@@ -121,7 +125,7 @@ function Form() {
     const insertArrow = () => {
         let el = ''; 
         if(arrows) {
-            el = <i className="w-0 h-0 border-solid border-transparent border-b-black border-r-[6px] border-b-[12px] border-l-[6px] inline-block mr-1"></i>
+            el = <i className="w-0 h-0 border-solid border-transparent border-b-black border-r-[6px] border-b-[12px] border-l-[6px] inline-block mr-1 slide-right"></i>
         } 
         return el;
     }
@@ -168,30 +172,30 @@ function Form() {
                             <div className='result-header'><strong>Expected Results:</strong></div>
                             <div className="bg-neutral-700 text-center py-4 w-full text-xxl text-[#fafafa]">
                                 <strong>{cmsData.current_revenue_text}</strong>
-                                <p className="current-revenue-result">{resultsNum.currentRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                <p className={`current-revenue-result ${swingAnim2}`}>{resultsNum.currentRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-t-2 border-x-2">
                                     <strong className="font-bold">{cmsData.new_revenue_text}</strong>
-                                    <p className="current-revenue-result">{insertArrow(0)}{resultsNum.newRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className={`current-revenue-result ${swingAnim}`}>{insertArrow(0)}{resultsNum.newRevenue.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col  w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <strong className="font-bold">{cmsData.monthly_gain_text}</strong>
-                                    <p className="current-revenue-result">{insertArrow(1)}{resultsNum.monthlyGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className={`current-revenue-result ${swingAnim}`}>{insertArrow(1)}{resultsNum.monthlyGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <strong className="font-bold">{cmsData.annual_gain_text}</strong>
-                                    <p className="current-revenue-result">{insertArrow(2)}{resultsNum.annualGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className={`current-revenue-result ${swingAnim}`}>{insertArrow(2)}{resultsNum.annualGain.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result">
                                 <div className="bg-gray-100 text-center flex flex-col w-full h-full max-sm:w-full justify-center text-xl px-8 py-4 border-x-2">
                                     <strong className="font-bold">{cmsData.page_speed_change_text}</strong>
-                                    <p className="current-revenue-result">{resultsNum.pageSpeedChange.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
+                                    <p className={`current-revenue-result ${swingAnim}`}>{resultsNum.pageSpeedChange.toLocaleString('en-US' , { style: 'currency', currency: 'USD' })}</p>
                                 </div>
                             </div>
                             <div className="result-cta">
