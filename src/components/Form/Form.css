@@ -36,3 +36,125 @@
     }
   }
   
+
+/** Iframe Page stuff **/
+
+.py-10 {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.form-title {
+  font-size: 2.125rem;
+}
+
+/** Expected Results Box **/
+
+.result-header {
+ text-align: center;
+ margin-bottom: 10px;
+}
+
+.current-revenue-result {
+  font-size: 1.75rem;
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: #d8d8d8;
+  border-radius: 30px;
+  padding-right: 10px;
+}
+
+.border {
+  border-width: 2px;
+  height: 50px;
+}
+
+.bg-neutral-700 {
+  --tw-bg-opacity: 1;
+  background-color: #2F2F83;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+
+.border-x-2 {
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+
+.border-b-2 {
+  border-bottom-width: 0px;
+  padding-bottom: 30px !important;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+/** Arrow Up **/
+.border-b-black {
+  --tw-border-opacity: 1;
+  border-bottom-color: #69CFB8;
+}
+
+/** Button CTA **/
+
+.bg-neutral-500 {
+  --tw-bg-opacity: 1;
+  background-color: #676CEA;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: -20px;
+  -webkit-transition: background-color .25s ease-out,color .25s ease-out;
+  -o-transition: background-color .25s ease-out,color .25s ease-out;
+  transition: background-color .25s ease-out,color .25s ease-out;
+}
+
+.hover\:bg-neutral-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: #2F2F83;
+  -webkit-transition: background-color .25s ease-out,color .25s ease-out;
+  -o-transition: background-color .25s ease-out,color .25s ease-out;
+  transition: background-color .25s ease-out,color .25s ease-out;
+}
+
+.rounded-sm {
+  border-radius: 30px;
+}
+
+.results-cta-txt {
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+
+/** Note Box **/
+
+.notes-section {
+  background-color: #f3f4f6;
+  margin-top: 30px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.pt-10 {
+  padding-top: 1.5rem;
+}
+
+.pb-10 {
+  padding-bottom: 1.5rem;
+}
+
+.notes-section a {
+  color: #2F2F83 !important;
+  -webkit-transition: background-color .25s ease-out,color .25s ease-out;
+  -o-transition: background-color .25s ease-out,color .25s ease-out;
+  transition: background-color .25s ease-out,color .25s ease-out;
+}
+
+.notes-section a {
+  color: #2F2F83 !important;
+  -webkit-transition: background-color .25s ease-out,color .25s ease-out;
+  -o-transition: background-color .25s ease-out,color .25s ease-out;
+  transition: background-color .25s ease-out,color .25s ease-out;
+}
